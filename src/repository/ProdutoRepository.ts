@@ -14,6 +14,6 @@ export interface ProdutoRepository {
     
     // Métodos de busca adicionais
 
-    buscarPorNome(nome: string): Produto | null;
+    buscarPorNome(nome: string): Produto[];
     buscarPorCategoria(categoria: string): Produto[];
 }

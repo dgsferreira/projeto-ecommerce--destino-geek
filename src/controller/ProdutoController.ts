@@ -2,8 +2,7 @@ import { ProdutoRepository } from "../repository/ProdutoRepository";
 import { colors } from "../util/colors";
 import { Produto } from "../util/model/Produto";
 
-
-export class ProdutoController implements ProdutoRepository { 
+export class ProdutoController implements ProdutoRepository {
 
     private listaProdutos: Array<Produto> = new Array<Produto>();
     numero: number = 0;
@@ -17,29 +16,22 @@ export class ProdutoController implements ProdutoRepository {
         
         } else {
 
-            console.log(`${colors.fg.red} \nO Produto numero: ${numero}  não foi encontrado. ${colors.reset}`);
+            console.log(`${colors.fg.red} \n❌ O Produto numero: ${numero}  não foi encontrado. ${colors.reset}`);
     
         }    
     }
 
     public listarTodos(): void {
-
-        if (this.listaProdutos.length === 0) {
-
-            console.log(`${colors.fg.yellow} \nNenhum produto cadastrado no momento. ${colors.reset}`);
-    
-        } else {
-    
-            this.listaProdutos.forEach(produto => produto.visualizar());
-    
-        }   
+        
+        this.exibirLista(this.listaProdutos);
+        
     }
 
 
     public cadastrar(produto: Produto): void {
 
         this.listaProdutos.push(produto);
-        console.log(`${colors.fg.bluestrong} "\nO Produto número: ${produto.numero} foi criado com sucesso! ${colors.reset}`);
+        console.log(`✅ Produto '${produto.nome}' cadastrado com sucesso!`);
     
     }
 
@@ -48,17 +40,12 @@ export class ProdutoController implements ProdutoRepository {
         let buscaProduto = this.buscarNoArray(produto.numero);
 
         if (buscaProduto != null) {
-
             this.listaProdutos[this.listaProdutos.indexOf(buscaProduto)] = produto;
-            console.log(`${colors.fg.bluestrong} \nO Produto número: ${produto.numero} foi atualizado com sucesso! ${colors.reset}`)
+            console.log(`${colors.fg.greenstrong} \n✅ O Produto número: ${produto.numero} foi atualizado com sucesso! ${colors.reset}`)
 
-        } else {
-
-            console.log(`${colors.fg.bluestrong} \nO Produto número: ${produto.numero} não foi encontrada! ${colors.reset}`);
-        
-        }
-    
-        }
+        } else
+            console.log(`${colors.fg.redstrong} \n❌ O Produto número: ${produto.numero} não foi encontrado! ${colors.reset}`);
+    }
 
     public deletar(numero: number): void {
 
@@ -67,26 +54,26 @@ export class ProdutoController implements ProdutoRepository {
         if (buscaProduto != null) {
 
             this.listaProdutos.splice(this.listaProdutos.indexOf(buscaProduto), 1);
-            console.log(`${colors.fg.bluestrong} \nO Produto número: ${numero} foi apagado com sucesso! ${colors.reset}`);
+            console.log(`${colors.fg.greenstrong} \n✅ O Produto número: ${numero} foi apagado com sucesso! ${colors.reset}`);
         
         } else {
 
-            console.log(`${colors.fg.bluestrong} \nO Produto número: ${numero} não foi encontrado! ${colors.reset}`);
+            console.log(`${colors.fg.redstrong} \n❌ O Produto número: ${numero} não foi encontrado! ${colors.reset}`);
         
         }    
     }
 
     /*  Novos métodos adicionados abaixo  */
 
-    public buscarPorNome(nome: string): Produto | null {
+    public buscarPorNome(nome: string): Produto[] {
 
-        return this.listaProdutos.find(produto => produto.nome.toLowerCase() === nome.toLowerCase()) || null;
+        return this.listaProdutos.filter(produto => produto.nome.toLowerCase().includes(nome.toLocaleLowerCase()));
     }
 
 
     public buscarPorCategoria(categoria: string): Produto[] {
 
-        return this.listaProdutos.filter(produto => produto.categoria.toLowerCase() === categoria.toLowerCase());
+        return this.listaProdutos.filter(produto => produto.categoria.toLowerCase().includes(categoria.toLowerCase()));
 
     }    
     
@@ -124,11 +111,27 @@ export class ProdutoController implements ProdutoRepository {
     
     }
 
-    /*Checa se uma Produto existe*/
+    /*Checa se uma Conta existe*/
     public buscarNoArray(numero: number): Produto | null {
 
-        return this.listaProdutos.find(produto => produto.numero === numero) || null;
-    
-    }
+        for (let produto of this.listaProdutos) {
+            if (produto.numero === numero)
+                return produto;
+        }
+        return null;
+    }   
 
+    private exibirLista(produtos: Produto[]): void {
+
+        if (produtos.length === 0) {
+
+            console.log(`${colors.fg.yellow} \nNenhum produto encontrado. ${colors.reset}`);
+    
+        } else {
+        
+            produtos.forEach(produto => produto.visualizar());
+        }
+    }
 }
+
+

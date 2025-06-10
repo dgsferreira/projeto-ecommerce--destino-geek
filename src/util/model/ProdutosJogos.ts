@@ -4,9 +4,9 @@ export class ProdutoJogos extends Produto {
 
     private _plataforma: string;
 
-    constructor(numero: number, nome: string, categoria: string, preco: number, estoque: number, plataforma: string) {
+    constructor(numero: number, categoria: string, nome: string, preco: number, estoque: number, plataforma: string) {
         
-        super(numero, nome, categoria, preco, estoque);
+        super(numero, categoria, nome, preco, estoque);
         this._plataforma = plataforma;
 
     }

@@ -4,9 +4,9 @@ export class ProdutoLivros extends Produto {
 
     private _autor: string;
 
-    constructor(numero: number, nome: string, categoria: string, preco: number, estoque: number, autor: string) {
+    constructor(numero: number, categoria: string, nome: string, preco: number, estoque: number, autor: string) {
         
-        super(numero, nome, categoria, preco, estoque);
+        super(numero, categoria, nome, preco, estoque);
         this._autor = autor;
         
     }

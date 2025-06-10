@@ -76,6 +76,21 @@ export class ProdutoController implements ProdutoRepository {
         }    
     }
 
+    /*  Novos métodos adicionados abaixo  */
+
+    public buscarPorNome(nome: string): Produto | null {
+
+        return this.listaProdutos.find(produto => produto.nome.toLowerCase() === nome.toLowerCase()) || null;
+    }
+
+
+    public buscarPorCategoria(categoria: string): Produto[] {
+
+        return this.listaProdutos.filter(produto => produto.categoria.toLowerCase() === categoria.toLowerCase());
+
+    }    
+    
+    
     public adicionarAoCarrinho(numero: number, quantidade: number): void {
 
         let produto = this.buscarNoArray(numero);
@@ -99,8 +114,6 @@ export class ProdutoController implements ProdutoRepository {
         console.log(`${colors.fg.bluestrong} \nCompra finalizada! Obrigado por escolher o Destino Geek! ${colors.reset}`);
     
     }
-
-
 
     /*Métodos Auxiliares*/
     
